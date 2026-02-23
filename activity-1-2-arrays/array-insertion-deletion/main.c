@@ -5,8 +5,8 @@
 #include "array.h"
 #include "others.h"
 
-int main(int argc, char *argv[]) {
-	int choice, value, position, target, arr[SIZE] = {0}, count = 0;
+int main(void) {
+	int choice, value, position, arr[SIZE] = {0}, count = 0;
 	bool isBack = false;
 	
 	// Main menu loop
@@ -24,7 +24,11 @@ int main(int argc, char *argv[]) {
 				else {
 					printf("Enter value to search: ");
 					position = search(arr, count, getUserInput());
-					printf(position!=-1 ? "Element %d is found at index "BRIGHTGREEN"%d"RESET : BRIGHTRED"Value not found."RESET, arr[position], position);
+					if(position!=-1) {
+						printf("Element %d is found at index "BRIGHTGREEN"%d"RESET, arr[position], position);
+					} else {
+						printf(BRIGHTRED"Value not found."RESET);
+					}
 				}
 				break;
 				

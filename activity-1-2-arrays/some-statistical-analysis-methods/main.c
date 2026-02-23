@@ -5,8 +5,8 @@
 
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
 
-int main(int argc, char *argv[]) {
-	int i, size;
+int main(void) {
+	int size;
 	
 	getUserInput(&size);	// Get input from user
 	

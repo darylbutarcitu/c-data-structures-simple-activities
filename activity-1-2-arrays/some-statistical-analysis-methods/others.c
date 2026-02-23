@@ -16,7 +16,10 @@ void printDivider(char ch, int length) {
 // Function to get user input
 void getUserInput(int *size) {
 	printf("Enter size of array: ");
-	scanf("%d", size);
+	while (scanf("%d", size) != 1 || *size <= 0) {
+		printf(RED "Invalid size! Enter a positive integer: " RESET);
+		while (getchar() != '\n');
+	}
 	printf("Size: %d", *size);
 	printf("\n");
 }

@@ -3,11 +3,6 @@
 #include "machine.h"
 #include "others.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include "machine.h"
-#include "others.h"
-
 int main() {
     int choice, sensorUpdateFlag = 0;
     Machine *m = malloc(sizeof(Machine));

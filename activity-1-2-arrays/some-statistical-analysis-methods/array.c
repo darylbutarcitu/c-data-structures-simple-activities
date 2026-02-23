@@ -171,6 +171,19 @@ void displayRange(int arr[], int size) {
     
     sortAscending(arr, size);
     
+    if(size == 1) {
+    	range = 0;
+    	q1 = arr[0];
+    	q3 = arr[0];
+    	iqr = 0;
+
+    	printf("Range: %.1f", range);
+    	printf("\nQ1: %.1f", q1);
+    	printf("\nQ3: %.1f", q3);
+    	printf("\nIQR: %.1f\n", iqr);
+    	return;
+    }
+
     
     range = arr[size-1] - arr[0];
     if(size%2==0) { // even
@@ -259,6 +272,11 @@ void displayPercentDistribution(int arr[], int size) {
 	
 	for (i = 0; i < size; i++) {
 		sum += arr[i];
+	}
+
+	if (sum == 0) {
+		printf("All values sum to 0; percentage distribution is undefined.\n");
+		return;
 	}
 	
 	// Display table
