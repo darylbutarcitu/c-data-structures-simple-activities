@@ -3,7 +3,7 @@
 
 // Function to calculate motor power
 float computePower(Machine *m) {
-    return (m->motor.specs.voltage * m->motor.specs.current);
+    return (m->motor.specs.voltage * m->motor.specs.current); // Power = Voltage * Current
 }
 
 // Function to validate sensor reading
