@@ -59,7 +59,7 @@ int main() {
         printf(YELLOW"Motor: \t\t"RESET"%s\n", m->motor.model);
         printf(YELLOW"Voltage (V): \t"RESET"%f\n", m->motor.specs.voltage);
         printf(YELLOW"Current (I): \t"RESET"%f\n", m->motor.specs.current);
-        printf(YELLOW"Power (IR): \t"RESET"%.2f Watts ", power);
+        printf(YELLOW"Power (V*I): \t"RESET"%.2f Watts ", power);
 		
 		// Display appropriate power level
         if (powerLevel == 1) {
