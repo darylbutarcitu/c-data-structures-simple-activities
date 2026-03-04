@@ -19,12 +19,12 @@ int main(int argc, char *argv[]) {
 	// ADD FRONT
 	printf("--- Add Front ---\n");
 	addFront(L1, 5);
-	displayAll(L1-);
+	displayAll(L1);
 	addFront(L1, 4);
 	addFront(L1, 3);
 	addFront(L1, 2);
 	addFront(L1, 1);
-	displayAll(L1->head);
+	displayAll(L1);
 	
 	// ADD END
 	printf("\n--- Add End ---\n");
@@ -34,6 +34,17 @@ int main(int argc, char *argv[]) {
 	addEnd(L1, 8);
 	addEnd(L1, 9);
 	addEnd(L1, 10);
+	displayAll(L1);
+
+	// ADD END
+	printf("\n--- Add At ---\n");
+	addAt(L1, 11, 1);	// Add at position 1 (front)
+	displayAll(L1);
+	addAt(L1, 12, 5);	// Add at position 5 (middle)
+	displayAll(L1);
+	addAt(L1, 13, -1);	// Add at negative position (front)
+	displayAll(L1);
+	addAt(L1, 14, 25);	// Add at position beyond count (end)
 	displayAll(L1);
 	
 	return 0;

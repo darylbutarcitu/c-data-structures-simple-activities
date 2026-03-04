@@ -19,9 +19,11 @@ typedef struct list{
 // Function Prototypes
 List* createList();	// List* createList();
 Node* createNode(int newItem);
+
 void displayAll(List* L);
 void addFront(List* L, int newItem);
 void addEnd(List* L, int newItem);
+void addAt(List* L, int newItem, int pos);
 
 
 #endif // SINGLY_H
