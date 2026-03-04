@@ -84,12 +84,15 @@ int main() {
 			clearInputBuffer();
 		}
 	}
-
+	
+	printf(BRIGHTGREEN"\nMACHINES DATA SAVED! "BRIGHTYELLOW"Press any key to continue..."RESET);
+	getch();
+	
 	do {
 		int machineID, machineIndex, sensorIndex;
 		float power, newReading;
-
-		printf("\n");
+		
+		system("cls"); // clear screen
 		displayTitle();
 		displayMenu();
 		printf("Enter choice: ");
@@ -99,25 +102,32 @@ int main() {
 			clearInputBuffer();
 		}
 		clearInputBuffer();
-
+		
+		system("cls"); // clear screen
+		displayTitle();
 		if (choice == 1) {
+			printf(BRIGHTYELLOW"\n1. Display All Machines"RESET);
 			if (machineCount == 0) {
-				printf(RED "No machines available.\n" RESET);
+				printf(RED "\nNo machines available.\n" RESET);
 			} else {
 				for (i = 0; i < machineCount; i++) {
 					displayMachineInfo(machines + i);
 				}
 			}
 		} else if (choice == 2) {
-			printf("Enter Machine ID: ");
+			printf(BRIGHTYELLOW"\n2. Compute and Classify Power of a Machine"RESET);
+			printf("\nEnter Machine ID: ");
 			scanf("%d", &machineID);
 			clearInputBuffer();
 			machineIndex = findMachineByID(machines, machineCount, machineID);
 			if (machineIndex == -1) {
 				printf(RED "Machine not found.\n" RESET);
 			} else {
+				
+				printf("\nVoltage (V): %.2f V", (machines + machineIndex)->motor.specs.voltage);
+				printf("\nCurrent (I): %.2f A", (machines + machineIndex)->motor.specs.current);
 				power = computePower(machines + machineIndex);
-				printf(YELLOW"\nComputed Power: "RESET"%.2f W\n", power);
+				printf(YELLOW"\nComputed Power (V*I): "RESET"%.2f W\n", power);
 				switch (classifyPowerLevel(power)) {
 					case 1: printf(YELLOW"Classification: "RESET"LOW POWER\n"); break;
 					case 2: printf(YELLOW"Classification: "BRIGHTGREEN"NORMAL POWER\n"RESET); break;
@@ -125,7 +135,8 @@ int main() {
 				}
 			}
 		} else if (choice == 3) {
-			printf("Enter Machine ID: ");
+			printf(BRIGHTYELLOW"\n3. Check Sensor Status"RESET);
+			printf("\nEnter Machine ID: ");
 			scanf("%d", &machineID);
 			clearInputBuffer();
 			machineIndex = findMachineByID(machines, machineCount, machineID);
@@ -138,21 +149,22 @@ int main() {
 				if (sensorIndex < 0 || sensorIndex >= (machines + machineIndex)->sensorCount) {
 					printf(RED "Invalid sensor index.\n" RESET);
 				} else {
-					printf(YELLOW"Sensor type:"RESET" %s\n", (machines + machineIndex)->sensor[sensorIndex].type);
-					printf(YELLOW"Sensor range [min, max]: "RESET"[%.2f, %.2f]\n", (machines + machineIndex)->sensor[sensorIndex].min, (machines + machineIndex)->sensor[sensorIndex].max);
-					printf(YELLOW"Current reading: "RESET"%.2f\n", (machines + machineIndex)->sensor[sensorIndex].reading);
-					printf(checkSensorStatus(machines + machineIndex, sensorIndex) ? BRIGHTGREEN "WITHIN RANGE\n" RESET : BRIGHTRED "OUT OF RANGE\n" RESET);
+					printf(YELLOW"\nSensor type:"RESET" %s", (machines + machineIndex)->sensor[sensorIndex].type);
+					printf(YELLOW"\nRange [min, max]: "RESET"[%.2f, %.2f]", (machines + machineIndex)->sensor[sensorIndex].min, (machines + machineIndex)->sensor[sensorIndex].max);
+					printf(YELLOW"\nCurrent reading: "RESET"%.2f", (machines + machineIndex)->sensor[sensorIndex].reading);
+					printf(checkSensorStatus(machines + machineIndex, sensorIndex) ? BRIGHTGREEN " WITHIN RANGE\n" RESET : BRIGHTRED " OUT OF RANGE\n" RESET);
 				}
 			}
 		} else if (choice == 4) {
-			printf("Enter Machine ID: ");
+			printf(BRIGHTYELLOW"\n4. Update Sensor Reading"RESET);
+			printf("\nEnter Machine ID: ");
 			scanf("%d", &machineID);
 			clearInputBuffer();
 			machineIndex = findMachineByID(machines, machineCount, machineID);
 			if (machineIndex == -1) {
 				printf(RED "Machine not found.\n" RESET);
 			} else {
-				printf("Enter Sensor Index (0 to %d): ", (machines + machineIndex)->sensorCount - 1);
+				printf("Enter Sensor Index [0 to %d]: ", (machines + machineIndex)->sensorCount - 1);
 				scanf("%d", &sensorIndex);
 				clearInputBuffer();
 				if (sensorIndex < 0 || sensorIndex >= (machines + machineIndex)->sensorCount) {
@@ -168,17 +180,22 @@ int main() {
 				}
 			}
 		} else if (choice == 5) {
-			printf("Enter Machine ID: ");
+			printf(BRIGHTYELLOW"\n5. Compute Average Sensor Reading"RESET);
+			printf("\nEnter Machine ID: ");
 			scanf("%d", &machineID);
 			clearInputBuffer();
 			machineIndex = findMachineByID(machines, machineCount, machineID);
 			if (machineIndex == -1) {
 				printf(RED "Machine not found.\n" RESET);
 			} else {
+				for (i = 0; i < (machines + machineIndex)->sensorCount; i++) {
+					printf("Sensor[i]: %.2f\n", (machines + machineIndex)->sensor[i].reading);
+				}
 				printf("Average Sensor Reading: %.2f\n", computeAverageSensorReading(machines + machineIndex));
 			}
 		} else if (choice == 6) {
-			printf("Enter Machine ID: ");
+			printf(BRIGHTYELLOW"\n6. Count Out-Of-Range Sensors"RESET);
+			printf("\nEnter Machine ID: ");
 			scanf("%d", &machineID);
 			clearInputBuffer();
 			machineIndex = findMachineByID(machines, machineCount, machineID);
@@ -188,7 +205,8 @@ int main() {
 				printf("Out-of-Range Sensors: %d\n", countOutOfRangeSensors(machines + machineIndex));
 			}
 		} else if (choice == 7) {
-			printf("Enter Machine ID to find: ");
+			printf(BRIGHTYELLOW"\n7. Find Machine by ID"RESET);
+			printf("\nEnter Machine ID to find: ");
 			scanf("%d", &machineID);
 			clearInputBuffer();
 			machineIndex = findMachineByID(machines, machineCount, machineID);
@@ -199,8 +217,11 @@ int main() {
 				displayMachineInfo(machines + machineIndex);
 			}
 		} else if (choice == 8) {
-			printf("Total Power of All Machines: %.2f W\n", computeTotalPowerAllMachines(machines, machineCount));
+			printf(BRIGHTYELLOW"\n8. Compute Total Power of All Machines"RESET);
+			printf("\n# of Machines: %d", machineCount);
+			printf("\nTotal Power: %.2f W\n", computeTotalPowerAllMachines(machines, machineCount));
 		} else if (choice == 9) {
+			printf(BRIGHTYELLOW"\n9.Show Machine with Highest Power"RESET);
 			machineIndex = getHighestPowerMachine(machines, machineCount);
 			if (machineIndex == -1) {
 				printf(RED "No machines available.\n" RESET);
@@ -209,10 +230,16 @@ int main() {
 				displayMachineInfo(machines + machineIndex);
 			}
 		} else if (choice == 10) {
-			printf("Enter Machine ID to remove: ");
+			printf(BRIGHTRED"\n10.Remove Machine"RESET);
+			printf("\nEnter Machine ID to remove: ");
 			scanf("%d", &machineID);
 			clearInputBuffer();
 			removeMachine(machines, &machineCount, machineID);
+		}
+		
+		if(choice != 11) {
+			printf(BRIGHTYELLOW"\nPress any key to continue..."RESET);
+			getch();
 		}
 	} while (choice != 11);
 
@@ -223,6 +250,6 @@ int main() {
 
 /* 	Butar, Daryl D.	24-5865-705	BSCPE	
 	CPE264 H1 2ndSem2526
-	Activity 4
-	February 26, 2026
+	Activity 4 Modified Structures
+	March 2, 2026
 */

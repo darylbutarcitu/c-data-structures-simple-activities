@@ -1,7 +1,7 @@
 #ifndef OTHERS_H
 #define OTHERS_H
 
-// Text color code
+// Text color codes
 #define RESET   		"\033[0m"
 #define YELLOW  		"\033[33m"
 #define BRIGHTYELLOW	"\033[93m"

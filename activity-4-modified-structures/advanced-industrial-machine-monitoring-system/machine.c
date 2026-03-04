@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "machine.h"
 #include "others.h"
 
@@ -30,6 +31,7 @@ int classifyPowerLevel(float power) {
 	}						
 }
 
+// Function to Update reading of a specific machine sensor
 void updateSensorReading(Machine *m, int sensorIndex, float newReading) {
 	if (sensorIndex < 0 || sensorIndex >= m->sensorCount) {
 		printf(RED "Invalid sensor index.\n" RESET);
@@ -40,35 +42,37 @@ void updateSensorReading(Machine *m, int sensorIndex, float newReading) {
 	printf(checkSensorStatus(m, sensorIndex) ? BRIGHTGREEN "Sensor status: WITHIN RANGE\n" RESET : BRIGHTRED "Sensor status: OUT OF RANGE\n" RESET);
 }
 
+// Function to display data of a machine
 void displayMachineInfo(Machine *m) {
 	int i;
 	float power = computePower(m);
 	int powerLevel = classifyPowerLevel(power);
-	printf(YELLOW "\n[=--------------------------------------=]\n" RESET);
-	printf(YELLOW "Machine Name: " RESET "%s\n", m->name);
-	printf(YELLOW "Machine ID: " RESET "%d\n", m->id);
-	printf(YELLOW "Motor Model: " RESET "%s\n", m->motor.model);
-	printf(YELLOW "Voltage: " RESET "%.2f V\n", m->motor.specs.voltage);
-	printf(YELLOW "Current: " RESET "%.2f A\n", m->motor.specs.current);
-	printf(YELLOW "Computed Power: " RESET "%.2f W\n", power);
-
+	printf(YELLOW "\n---------------------------------=]\n" RESET, findMachineByID(m, sizeof(m)/sizeof(Machine), (m->id)+1));
+	printf(YELLOW "Machine Name: \t" RESET "%s\n", m->name);
+	printf(YELLOW "Machine ID: \t" RESET "%d\n", m->id);
+	printf(YELLOW "Motor Model: \t" RESET "%s\n", m->motor.model);
+	printf(YELLOW "Voltage (V): \t" RESET "%.2f V\n", m->motor.specs.voltage);
+	printf(YELLOW "Current (I): \t" RESET "%.2f A\n", m->motor.specs.current);
+	printf(YELLOW "Power (V*I): \t" RESET "%.2f W\n", power);
+	printf(YELLOW "Power Class: \t"); 
 	if (powerLevel == 1) {
-		printf(YELLOW "Power Class: " BRIGHTRED "LOW POWER\n" RESET);
+		printf(BRIGHTRED "LOW POWER\n" RESET);
 	} else if (powerLevel == 2) {
-		printf(YELLOW "Power Class: " BRIGHTGREEN "NORMAL POWER\n" RESET);
+		printf(BRIGHTGREEN "NORMAL POWER\n" RESET);
 	} else {
-		printf(YELLOW "Power Class: " BRIGHTYELLOW "HIGH POWER\n" RESET);
+		printf(BRIGHTYELLOW "HIGH POWER\n" RESET);
 	}
 
 	for (i = 0; i < m->sensorCount; i++) {
 		printf(YELLOW"\nSensor[%d]\n"RESET, i);
-		printf("Type: %s\n", m->sensor[i].type);
-		printf("Reading: %.2f\n", m->sensor[i].reading);
-		printf("Range: [%.2f, %.2f]\n", m->sensor[i].min, m->sensor[i].max);
-		printf("Status: %s\n", checkSensorStatus(m, i) ? "WITHIN RANGE" : "OUT OF RANGE");
+		printf("Type: \t\t%s\n", m->sensor[i].type);
+		printf("Reading: \t%.2f\n", m->sensor[i].reading);
+		printf("Range: \t\t[%.2f, %.2f]\n", m->sensor[i].min, m->sensor[i].max);
+		printf("Status: \t%s\n", checkSensorStatus(m, i) ? BRIGHTGREEN"WITHIN RANGE"RESET : BRIGHTRED"OUT OF RANGE"RESET);
 	}
 }
 
+// Function to Compute the average sensor reading of a machine
 float computeAverageSensorReading(Machine *m) {
 	int i;
 	float total = 0.0f;
@@ -84,6 +88,7 @@ float computeAverageSensorReading(Machine *m) {
 	return total / m->sensorCount;
 }
 
+// Function to Count sensors of a machine that are out of range
 int countOutOfRangeSensors(Machine *m) {
 	int i;
 	int count = 0;
@@ -97,6 +102,7 @@ int countOutOfRangeSensors(Machine *m) {
 	return count;
 }
 
+// Function to find the index of a machine using machine ID
 int findMachineByID(Machine *machines, int machineCount, int machineID) {
 	int i;
 	for (i = 0; i < machineCount; i++) {
@@ -107,6 +113,7 @@ int findMachineByID(Machine *machines, int machineCount, int machineID) {
 	return -1;
 }
 
+// Function to Calculate the total power of all machines
 float computeTotalPowerAllMachines(Machine *machines, int machineCount) {
 	int i;
 	float total = 0.0f;
@@ -118,6 +125,7 @@ float computeTotalPowerAllMachines(Machine *machines, int machineCount) {
 	return total;
 }
 
+// Function to find the index of the machine with the highest power
 int getHighestPowerMachine(Machine *machines, int machineCount) {
 	int i;
 	int highestIndex = 0;
@@ -139,6 +147,7 @@ int getHighestPowerMachine(Machine *machines, int machineCount) {
 	return highestIndex;
 }
 
+// Function to Remove a Machine using machine id
 void removeMachine(Machine *machines, int *machineCount, int machineID) {
 	int i;
 	int index = findMachineByID(machines, *machineCount, machineID);
