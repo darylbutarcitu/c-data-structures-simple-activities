@@ -8,6 +8,7 @@ This practice module currently focuses on basic insertion operations for a singl
 
 - `createList`
 - `createNode`
+- `freeList`
 - `displayAll`
 - `addFront`
 - `addEnd`

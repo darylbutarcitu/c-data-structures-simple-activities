@@ -4,8 +4,8 @@
 
 // Function to create a new List, initialize count to 0 and head to NULL, returns a List pointer variable
 List* createList() {
-	List* newList = (List*)malloc(1*sizeof(List)); // (type_to_cast)malloc(count * sizeof(object));
-	if(newList==NULL) {
+	List* newList = malloc(sizeof(List));
+	if(newList==NULL) {	// Malloc failed
 		return NULL;
 	}
 	newList->count = 0;
@@ -15,13 +15,28 @@ List* createList() {
 
 // Function to create a new node, initialize the item and next to NULL, returns a node pointer variable
 Node* createNode(int newItem) {
-	Node* n = (Node*)malloc(sizeof(Node));
-	if(n==NULL) {
+	Node* n = malloc(sizeof(Node));
+	if(n==NULL) { // Malloc failed
 		return NULL;
 	}
 	n->item = newItem;
 	n->next = NULL;
 	return n;
+}
+
+void freeList(List* L) {
+	if(L==NULL) {
+		return;
+	}
+
+	Node* curr = L->head;
+	while(curr!=NULL) {
+		Node* nextNode = curr->next;
+		free(curr);
+		curr = nextNode;
+	}
+
+	free(L);
 }
 
 // Function to display all items in a List
@@ -47,12 +62,12 @@ void displayAll(List* L) {
 
 // Function to Add in front of the list
 void addFront(List* L, int newItem){
-	if(L==NULL) {
+	if(L==NULL) {	// Invalid List pointer
 		return;
 	}
 
 	Node* newNode = createNode(newItem);
-	if(newNode==NULL) {
+	if(newNode==NULL) {	// Malloc failed
 		return;
 	}
 

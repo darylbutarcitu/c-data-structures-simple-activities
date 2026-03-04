@@ -4,7 +4,7 @@
 
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
 
-int main(int argc, char *argv[]) {
+int main(void) {
 	
 	List* L1 = createList();
 	
@@ -36,7 +36,7 @@ int main(int argc, char *argv[]) {
 	addEnd(L1, 10);
 	displayAll(L1);
 
-	// ADD END
+	// ADD AT
 	printf("\n--- Add At ---\n");
 	addAt(L1, 11, 1);	// Add at position 1 (front)
 	displayAll(L1);
@@ -46,6 +46,8 @@ int main(int argc, char *argv[]) {
 	displayAll(L1);
 	addAt(L1, 14, 25);	// Add at position beyond count (end)
 	displayAll(L1);
+
+	freeList(L1);
 	
 	return 0;
 }
